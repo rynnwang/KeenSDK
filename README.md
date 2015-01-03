@@ -1,4 +1,4 @@
-keen-sdk-net
+Keen .NET SDK
 ============
 
 Usage
@@ -15,15 +15,12 @@ The SDK was written for .NET v4.5.
 Installation
 ------------
 
-The easiest way to get started with the Keen IO .NET SDK is to use the [KeenClient NuGet package](http://www.nuget.org/packages/KeenClient/). 
+The easiest way to get started with the Keen IO .NET SDK is to use the [KeenClient NuGet package](http://www.nuget.org/packages/Keen.NET/). 
 
 That can be installed from the Package Manager Console in Visual Studio with the command :
 
 ```
-  PM> Install-Package KeenClient
-```
-
-The most up to date code is available in this repo.
+  PM> Install-Package Keen.NET
 
 ```
   https://github.com/rynnwang/KeenSDK
@@ -54,10 +51,6 @@ Event data is provided to the client as an object. A simple way to do this is wi
     
   keenClient.AddEvent("purchases", eventPurchase);
 ```
-
-Recording Events Asynchronously
--------------------------------
-
 
 Full Example
 ------------
