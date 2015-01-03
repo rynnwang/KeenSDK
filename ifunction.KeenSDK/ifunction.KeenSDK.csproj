@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{243670A7-FF6E-46AC-99F9-0A8242B8EF08}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ifunction.KeenSDK</RootNamespace>
+    <AssemblyName>ifunction.KeenSDK</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ifunction.Common">
+      <HintPath>..\packages\ifunction.Common.2.2.17\lib\ifunction.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Addons\EventAddOn.cs" />
+    <Compile Include="Addons\EventAddOnCollection.cs" />
+    <Compile Include="Addons\IEventAddOn.cs" />
+    <Compile Include="Addons\IpParser.cs" />
+    <Compile Include="Addons\ReferrerParser.cs" />
+    <Compile Include="Addons\UrlParser.cs" />
+    <Compile Include="Addons\UserAgentParser.cs" />
+    <Compile Include="Extension.cs" />
+    <Compile Include="Interface\IGroupByResult.cs" />
+    <Compile Include="KeenClient\KeenClient.cs" />
+    <Compile Include="KeenConstants.cs" />
+    <Compile Include="Model\AnalysisResult.cs" />
+    <Compile Include="Model\FunnelStep.cs" />
+    <Compile Include="Model\MultiAnalysisParameter.cs" />
+    <Compile Include="Model\QueryFilter.cs" />
+    <Compile Include="Model\QueryGroupValue.cs" />
+    <Compile Include="Model\QueryInterval.cs" />
+    <Compile Include="Model\QueryIntervalValue.cs" />
+    <Compile Include="Model\QueryTimeFrame.cs" />
+    <Compile Include="Model\QueryType.cs" />
+    <Compile Include="Model\QueryTypeJsonConverter.cs" />
+    <Compile Include="Model\TimeUnit.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
