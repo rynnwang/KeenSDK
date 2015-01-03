@@ -23,8 +23,6 @@ That can be installed from the Package Manager Console in Visual Studio with the
   PM> Install-Package Keen.NET
 
 ```
-  https://github.com/rynnwang/KeenSDK
-```  
 
 Initializing the Library
 ------------------------
