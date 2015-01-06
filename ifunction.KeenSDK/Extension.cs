@@ -142,8 +142,9 @@ namespace ifunction.KeenSDK
         /// <typeparam name="T"></typeparam>
         /// <param name="jObject">The j object.</param>
         /// <param name="groupByNames">The group by names.</param>
+        /// <param name="propertyMapping">The property mapping.</param>
         /// <returns>IList&lt;T&gt;.</returns>
-        public static IList<T> QueryResultToGroups<T>(this JObject jObject, IList<string> groupByNames) where T : IGroupByResult, new()
+        public static IList<T> QueryResultToGroups<T>(this JObject jObject, IList<string> groupByNames, IDictionary<string, string> propertyMapping = null) where T : IGroupByResult, new()
         {
             IList<T> result = new List<T>();
 
@@ -158,7 +159,9 @@ namespace ifunction.KeenSDK
                     foreach (var propertyName in groupByNames)
                     {
                         var value = item.Value<string>(propertyName);
-                        var property = entityType.GetProperty(propertyName);
+                        var targetPropertyName = (propertyMapping != null && propertyMapping.ContainsKey(propertyName)) ? propertyMapping[propertyName] : propertyName;
+
+                        var property = entityType.GetProperty(targetPropertyName);
 
                         if (property != null)
                         {

@@ -455,13 +455,14 @@ namespace ifunction.KeenSDK.Core
         /// <param name="groupByNames">The group by names.</param>
         /// <param name="interval">The interval.</param>
         /// <param name="timezone">The timezone.</param>
+        /// <param name="propertyMapping">The property mapping.</param>
         /// <returns>IList&lt;T&gt;.</returns>
-        public IList<T> CountingByGroup<T>(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, QueryInterval interval = null, int? timezone = null)
+        public IList<T> CountingByGroup<T>(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, QueryInterval interval = null, int? timezone = null, IDictionary<string, string> propertyMapping = null)
             where T : IGroupByResult, new()
         {
             var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, groupByNames, interval, timezone, null);
 
-            return result.QueryResultToGroups<T>(groupByNames);
+            return result.QueryResultToGroups<T>(groupByNames, propertyMapping);
         }
 
         /// <summary>

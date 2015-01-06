@@ -28,7 +28,6 @@ Initializing the Library
 ------------------------
 
 ```
-  var prjSettings = new ProjectSettingsProvider("YourProjectID", writeKey: "YourWriteKey");
   var keenClient = new KeenClient("YourProjectID", writeKey: "YourWriteKey", readKey: "YourReadKey", masterKey: "YourMasterkey");
 ```
 
