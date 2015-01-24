@@ -9,6 +9,7 @@ using ifunction.KeenSDK.Core.AddOns;
 using ifunction.KeenSDK.Model;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using ifunction.ExceptionSystem;
 
 namespace ifunction.KeenSDK.Core
 {
@@ -155,7 +156,7 @@ namespace ifunction.KeenSDK.Core
         /// Checks the API error code.
         /// </summary>
         /// <param name="operationName">Name of the operation.</param>
-        /// <param name="jObject">The j object.</param>
+        /// <param name="jObject">The jobject.</param>
         protected static void CheckApiErrorCode(string operationName, JObject jObject)
         {
             var errorCode = jObject.Value<string>("error_code");
