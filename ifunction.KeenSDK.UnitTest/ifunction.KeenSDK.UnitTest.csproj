@@ -39,8 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ifunction.Common">
-      <HintPath>..\packages\ifunction.Common.2.2.21\lib\ifunction.Common.dll</HintPath>
+    <Reference Include="ifunction.Common, Version=2.6.0.0, Culture=neutral, PublicKeyToken=4e9b350525e23afa, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ifunction.Common.2.6.2\lib\ifunction.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
