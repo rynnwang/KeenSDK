@@ -75,6 +75,7 @@ namespace ifunction.KeenSDK.Core
         /// <summary>
         /// Generates the URL.
         /// </summary>
+        /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="module">The module.<example>queries</example></param>
         /// <param name="feature">The feature.</param>
         /// <param name="parameters">The parameters.</param>
@@ -90,6 +91,7 @@ namespace ifunction.KeenSDK.Core
         /// <summary>
         /// Generates the URL.
         /// </summary>
+        /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="baseUrl">The base URL.</param>
         /// <param name="projectId">The project identifier.</param>
         /// <param name="module">The module.</param>
