@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using ifunction.ExceptionSystem;
 using ifunction.KeenSDK.Core.AddOns;
 using ifunction.KeenSDK.Model;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using ifunction.ExceptionSystem;
+using Newtonsoft.Json.Linq;
 
 namespace ifunction.KeenSDK.Core
 {
@@ -117,7 +116,7 @@ namespace ifunction.KeenSDK.Core
                 return;
             }
 
-            collectionName.CheckNullOrEmptyString("collectionName");
+            collectionName.CheckEmptyString("collectionName");
             if (collectionName.Length > 64 || new Regex("[^\x00-\x7F]").Match(collectionName).Success
                 || collectionName.Contains("$") || collectionName.StartsWith("_"))
             {
@@ -137,11 +136,11 @@ namespace ifunction.KeenSDK.Core
             request.CheckNullObject("request");
 
             HttpStatusCode statusCode;
-            string response = request.ReadResponseAsText(Encoding.UTF8, out statusCode);
+            var response = request.ReadResponseAsText(Encoding.UTF8, out statusCode);
 
             if (((int)statusCode).ToString().StartsWith("2"))
             {
-                JObject jObject = JObject.Parse(response);
+                var jObject = JObject.Parse(response);
                 CheckApiErrorCode(request.RequestUri.ToString(), jObject);
 
                 return jObject;
@@ -189,8 +188,6 @@ namespace ifunction.KeenSDK.Core
         /// <param name="eventInfo">The event information.</param>
         /// <param name="addOnCollection">The add on collection.</param>
         /// <returns>JObject.</returns>
-        /// <exception cref="KeenException">
-        /// </exception>
         protected JObject PrepareUserObject(object eventInfo, EventAddOnCollection addOnCollection)
         {
             var jEvent = JObject.FromObject(eventInfo);
@@ -210,7 +207,7 @@ namespace ifunction.KeenSDK.Core
             // Set add-on nodes in JSON
             if (addOnCollection != null && addOnCollection.Count > 0)
             {
-                List<object> addOns = new List<object>();
+                var addOns = new List<object>();
 
                 foreach (var one in addOnCollection)
                 {
@@ -255,9 +252,8 @@ namespace ifunction.KeenSDK.Core
         {
             collectionName.CheckNullObject("collectionName");
 
-            var parameters = new Dictionary<string, string>();
+            var parameters = new Dictionary<string, string> { { KeenConstants.QueryEventCollection, collectionName } };
 
-            parameters.Add(KeenConstants.QueryEventCollection, collectionName);
             if (timeFrame != null)
             {
                 parameters.Add(KeenConstants.QueryTimeFrame, timeFrame.ToSafeString());
@@ -289,7 +285,7 @@ namespace ifunction.KeenSDK.Core
             {
                 if (groupByNames.Count > 1)
                 {
-                    List<string> groupNames = new List<string>();
+                    var groupNames = new List<string>();
                     foreach (var one in groupByNames)
                     {
                         groupNames.Add(one);
@@ -367,8 +363,7 @@ namespace ifunction.KeenSDK.Core
 
             if (addOn != null)
             {
-                addOnes = new EventAddOnCollection();
-                addOnes.Add(addOn);
+                addOnes = new EventAddOnCollection {addOn};
             }
 
             AddEvent(collection, eventInfo, addOnes);
@@ -385,7 +380,7 @@ namespace ifunction.KeenSDK.Core
             ValidateEventCollectionName(collectionName);
 
             eventInfo.CheckNullObject("eventInfo");
-            this.WriteKey.CheckNullOrEmptyString("WriteKey");
+            this.WriteKey.CheckEmptyString("WriteKey");
 
             var eventObject = PrepareUserObject(eventInfo, addOnCollection);
 
@@ -428,8 +423,8 @@ namespace ifunction.KeenSDK.Core
         /// <returns>JObject.</returns>
         public JObject CommonQuery(QueryType queryType, string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, QueryInterval interval = null, int? timezone = null, string targetProperty = null)
         {
-            collectionName.CheckNullOrEmptyString("collection");
-            this.ReadKey.CheckNullOrEmptyString("ReadKey");
+            collectionName.CheckEmptyString("collection");
+            this.ReadKey.CheckEmptyString("ReadKey");
 
             var parameters = CreateCriteriaData(
               collectionName: collectionName,
@@ -477,8 +472,8 @@ namespace ifunction.KeenSDK.Core
         /// <returns>IList&lt;JObject&gt;.</returns>
         public IList<JObject> QueryObject(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, int? timezone = null, int countByLatest = 100)
         {
-            collectionName.CheckNullOrEmptyString("collection");
-            this.ReadKey.CheckNullOrEmptyString("ReadKey");
+            collectionName.CheckEmptyString("collection");
+            this.ReadKey.CheckEmptyString("ReadKey");
 
             var parameters = this.CreateCriteriaData(
              collectionName: collectionName,
@@ -507,8 +502,8 @@ namespace ifunction.KeenSDK.Core
         /// <returns>IList&lt;T&gt;.</returns>
         public IList<T> QueryObjectAs<T>(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, int? timezone = null, int countByLatest = 100)
         {
-            collectionName.CheckNullOrEmptyString("collection");
-            this.ReadKey.CheckNullOrEmptyString("ReadKey");
+            collectionName.CheckEmptyString("collection");
+            this.ReadKey.CheckEmptyString("ReadKey");
 
             var parameters = this.CreateCriteriaData(
              collectionName: collectionName,
@@ -540,7 +535,7 @@ namespace ifunction.KeenSDK.Core
         /// <returns>JObject.</returns>
         public JObject PostSavedQuery(string savedQueryName, QueryType queryType, string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, QueryInterval interval = null, int? timezone = null, string targetProperty = null)
         {
-            savedQueryName.CheckNullOrEmptyString("savedQueryName");
+            savedQueryName.CheckEmptyString("savedQueryName");
 
             var savedQuery = new
             {

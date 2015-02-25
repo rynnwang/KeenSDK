@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace ifunction.KeenSDK.Model
@@ -9,7 +6,7 @@ namespace ifunction.KeenSDK.Model
     /// <summary>
     /// Class QueryTypeJsonConverter.
     /// </summary>
-    public class QueryTypeJsonConverter : Newtonsoft.Json.JsonConverter
+    public class QueryTypeJsonConverter : JsonConverter
     {
         /// <summary>
         /// Determines whether this instance can convert the specified object type.
@@ -43,21 +40,6 @@ namespace ifunction.KeenSDK.Model
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            string enumValue = string.Empty;
-
-            switch ((QueryType)value)
-            {
-                case QueryType.CountUnique:
-                    enumValue = "count_unique";
-                    break;
-                case QueryType.SelectUnique:
-                    enumValue = "select_unique";
-                    break;
-                default:
-                    ((QueryType)value).ToString().ToLowerInvariant();
-                    break;
-            }
-
             writer.WriteValue(((QueryType)value).ToValueString());
         }
     }

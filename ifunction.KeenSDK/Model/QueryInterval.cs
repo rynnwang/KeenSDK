@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ifunction.KeenSDK.Model
+﻿namespace ifunction.KeenSDK.Model
 {
+    /// <summary>
+    /// Class QueryInterval.
+    /// </summary>
     public class QueryInterval
     {
         #region Enum
@@ -89,7 +87,6 @@ namespace ifunction.KeenSDK.Model
         /// </summary>
         protected QueryInterval()
         {
-
         }
 
         /// <summary>

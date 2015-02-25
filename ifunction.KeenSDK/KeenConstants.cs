@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ifunction.KeenSDK.Core
+﻿namespace ifunction.KeenSDK.Core
 {
     /// <summary>
     /// Class KeenConstants.

@@ -224,7 +224,7 @@ namespace ifunction.KeenSDK.Model
         /// <param name="value">The value.</param>
         public QueryFilter(string property, FilterOperator filterOperator, object value)
         {
-            property.CheckNullOrEmptyString("property");
+            property.CheckEmptyString("property");
             value.CheckNullObject("value");
 
             this.PropertyName = property;

@@ -42,7 +42,7 @@
   <ItemGroup>
     <Reference Include="ifunction.Common, Version=2.8.0.0, Culture=neutral, PublicKeyToken=4e9b350525e23afa, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ifunction.Common.2.8.5\lib\ifunction.Common.dll</HintPath>
+      <HintPath>..\packages\ifunction.Common.2.8.10\lib\ifunction.Common.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -72,9 +72,7 @@
     <Compile Include="Model\FunnelStep.cs" />
     <Compile Include="Model\MultiAnalysisParameter.cs" />
     <Compile Include="Model\QueryFilter.cs" />
-    <Compile Include="Model\QueryGroupValue.cs" />
     <Compile Include="Model\QueryInterval.cs" />
-    <Compile Include="Model\QueryIntervalValue.cs" />
     <Compile Include="Model\QueryTimeFrame.cs" />
     <Compile Include="Model\QueryType.cs" />
     <Compile Include="Model\QueryTypeJsonConverter.cs" />
