@@ -1,4 +1,5 @@
 ﻿using System;
+using ifunction.RestApi;
 using Newtonsoft.Json.Linq;
 
 namespace ifunction.KeenSDK.Model

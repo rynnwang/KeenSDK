@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using ifunction.ExceptionSystem;
 using ifunction.KeenSDK.Core.AddOns;
 using ifunction.KeenSDK.Model;
+using ifunction.RestApi;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -244,7 +245,7 @@ namespace ifunction.KeenSDK.Core
             string collectionName,
             QueryTimeFrame timeFrame = null,
             IList<QueryFilter> filters = null,
-            QueryInterval interval = null,
+            AxisTimeInterval interval = null,
             IList<string> groupByNames = null,
             IList<MultiAnalysisParameter> analysisParameters = null,
              IList<FunnelStep> steps = null,
@@ -336,7 +337,7 @@ namespace ifunction.KeenSDK.Core
         /// <summary>
         /// Return schema information for all the event collections in this project.
         /// </summary>
-        /// <param name="collection">The collection.</param>
+        /// <param name="collectionName">Name of the collection.</param>
         /// <returns>Task&lt;JArray&gt;.</returns>
         public JObject GetSchema(string collectionName = null)
         {
@@ -423,7 +424,7 @@ namespace ifunction.KeenSDK.Core
         /// <param name="timezone">The timezone.</param>
         /// <param name="targetProperty">The target property.</param>
         /// <returns>JObject.</returns>
-        public JObject CommonQuery(QueryType queryType, string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, QueryInterval interval = null, int? timezone = null, string targetProperty = null)
+        public JObject CommonQuery(QueryType queryType, string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, AxisTimeInterval interval = null, int? timezone = null, string targetProperty = null)
         {
             collectionName.CheckEmptyString("collection");
             this.ReadKey.CheckEmptyString("ReadKey");
@@ -455,7 +456,7 @@ namespace ifunction.KeenSDK.Core
         /// <param name="timezone">The timezone.</param>
         /// <param name="propertyMapping">The property mapping.</param>
         /// <returns>IList&lt;T&gt;.</returns>
-        public IList<T> CountingByGroup<T>(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, QueryInterval interval = null, int? timezone = null, IDictionary<string, string> propertyMapping = null)
+        public IList<T> CountByGroup<T>(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, AxisTimeInterval interval = null, int? timezone = null, IDictionary<string, string> propertyMapping = null)
             where T : IGroupByResult, new()
         {
             var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, groupByNames, interval, timezone, null);
@@ -535,7 +536,7 @@ namespace ifunction.KeenSDK.Core
         /// <param name="timezone">The timezone.</param>
         /// <param name="targetProperty">The target property.</param>
         /// <returns>JObject.</returns>
-        public JObject PostSavedQuery(string savedQueryName, QueryType queryType, string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, QueryInterval interval = null, int? timezone = null, string targetProperty = null)
+        public JObject PostSavedQuery(string savedQueryName, QueryType queryType, string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, AxisTimeInterval interval = null, int? timezone = null, string targetProperty = null)
         {
             savedQueryName.CheckEmptyString("savedQueryName");
 
