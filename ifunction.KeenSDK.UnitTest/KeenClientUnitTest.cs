@@ -17,7 +17,7 @@ namespace ifunction.KeenSDK.UnitTest
         private static KeenClient client = new KeenClient("TestProjectId",
             "TestMasterKey",
             "TestReadKey",
-            "TestWrhiteKey"
+            "TestWhiteKey"
             );
 
         /// <summary>
