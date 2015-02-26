@@ -284,21 +284,12 @@ namespace ifunction.KeenSDK.Core
                 parameters.Add(KeenConstants.QuerySteps, stepsJson);
             }
 
-            if (groupByNames != null && groupByNames.Count > 0)
+            if (groupByNames != null && groupByNames.Any())
             {
-                if (groupByNames.Count > 1)
-                {
-                    var groupNames = new List<string>();
-                    foreach (var one in groupByNames)
-                    {
-                        groupNames.Add(one);
-                    }
-                    parameters.Add(KeenConstants.QueryGroupBy, JsonConvert.SerializeObject(groupNames));
-                }
-                else
-                {
-                    parameters.Add(KeenConstants.QueryGroupBy, groupByNames[0].ToSafeString());
-                }
+                parameters.Add(KeenConstants.QueryGroupBy,
+                    groupByNames.Count > 1 ?
+                    JsonConvert.SerializeObject(groupByNames.ToList())
+                    : groupByNames[0].ToSafeString());
             }
 
             if (analysisParameters != null && analysisParameters.Count > 0)
@@ -366,7 +357,7 @@ namespace ifunction.KeenSDK.Core
 
             if (addOn != null)
             {
-                addOnes = new EventAddOnCollection {addOn};
+                addOnes = new EventAddOnCollection { addOn };
             }
 
             AddEvent(collection, eventInfo, addOnes);
@@ -421,7 +412,11 @@ namespace ifunction.KeenSDK.Core
         /// <param name="filters">The filters.</param>
         /// <param name="groupByNames">The group by names.</param>
         /// <param name="interval">The interval.</param>
-        /// <param name="timezone">The timezone.</param>
+        /// <param name="timezone">The timezone.
+        /// <remarks>Unit: second
+        /// <example>For example, if you want to set the timezone to be US/Pacific time (UTC-08:00), you set the timezone parameter equal to -28800 (-8 hours * 60 minutes * 60 seconds)
+        /// </example>
+        /// </remarks></param>
         /// <param name="targetProperty">The target property.</param>
         /// <returns>JObject.</returns>
         public JObject CommonQuery(QueryType queryType, string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, AxisTimeInterval interval = null, int? timezone = null, string targetProperty = null)
@@ -445,7 +440,7 @@ namespace ifunction.KeenSDK.Core
         }
 
         /// <summary>
-        /// Countings the by group.
+        /// Counts the by group.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collectionName">Name of the collection.</param>
