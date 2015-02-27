@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using ifunction.Analytic.Model;
 using ifunction.ExceptionSystem;
 using ifunction.KeenSDK.Core.AddOns;
 using ifunction.KeenSDK.Model;
@@ -457,6 +458,24 @@ namespace ifunction.KeenSDK.Core
             var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, groupByNames, interval, timezone, null);
 
             return result.QueryResultToGroups<T>(groupByNames, propertyMapping);
+        }
+
+        /// <summary>
+        /// Counts the by interval.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collectionName">Name of the collection.</param>
+        /// <param name="timeFrame">The time frame.</param>
+        /// <param name="filters">The filters.</param>
+        /// <param name="interval">The interval.</param>
+        /// <param name="timezone">The timezone.</param>
+        /// <returns>IList&lt;T&gt;.</returns>
+        public IList<T> CountByInterval<T>(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, AxisTimeInterval interval = null, int? timezone = null)
+           where T : IAnalyticStatistic, new()
+        {
+            var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, null, interval, timezone, null);
+
+            return result.QueryResultToIntervalGroups<T>(interval);
         }
 
         /// <summary>

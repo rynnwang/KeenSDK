@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using ifunction.Analytic.Model;
 using ifunction.KeenSDK.Core;
 using ifunction.KeenSDK.Model;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ifunction.KeenSDK
@@ -96,6 +94,59 @@ namespace ifunction.KeenSDK
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Queries the result to interval groups.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jObject">The j object.</param>
+        /// <param name="interval">The interval.</param>
+        /// <returns>IList&lt;T&gt;.</returns>
+        public static IList<T> QueryResultToIntervalGroups<T>(this JObject jObject, AxisTimeInterval interval) where T : IAnalyticStatistic, new()
+        {
+            IList<T> result = new List<T>();
+
+            if (jObject != null && interval != null)
+            {
+                foreach (JObject item in jObject.Value<JArray>("result"))
+                {
+                    result.Add(new T
+                    {
+                        Count = item.Value<int>("value"),
+                        StampIdentifier = item.Value<JObject>("timeframe").Value<DateTime>("start").ToString(interval.IntervalToDateTimeFormat())
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Intervals to date time format.
+        /// </summary>
+        /// <param name="interval">The interval.</param>
+        /// <returns>System.String.</returns>
+        private static string IntervalToDateTimeFormat(this AxisTimeInterval interval)
+        {
+            if (interval == null) return string.Empty;
+
+            switch (interval.Unit)
+            {
+                case TimeUnit.Day:
+                case TimeUnit.Week:
+                    return "yyyy-MM-dd";
+                case TimeUnit.Hour:
+                    return "yyyy-MM-dd-HH";
+                case TimeUnit.Minute:
+                    return "yyyy-MM-dd-HH-mm";
+                case TimeUnit.Month:
+                    return "yyyy-MM";
+                case TimeUnit.Year:
+                    return "yyyy";
+                default:
+                    return string.Empty;
+            }
         }
 
         #endregion

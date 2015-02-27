@@ -88,7 +88,7 @@
         /// <summary>
         /// The query time frame
         /// </summary>
-        public const string QueryTimeFrame = "TimeFrame";
+        public const string QueryTimeFrame = "timeframe";
 
         /// <summary>
         /// The query group by

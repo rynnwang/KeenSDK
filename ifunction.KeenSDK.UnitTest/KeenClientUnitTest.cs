@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ifunction.Analytic.Model;
 using ifunction.KeenSDK.Core;
+using ifunction.KeenSDK.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ifunction.KeenSDK.UnitTest
@@ -90,11 +92,7 @@ namespace ifunction.KeenSDK.UnitTest
             client.AddEvent(collection, new { Category = "B", SubCategory = "a", Value = Guid.NewGuid() });
             client.AddEvent(collection, new { Category = "A", SubCategory = "b", Value = Guid.NewGuid() });
 
-            var groupBy = new List<string>();
-            groupBy.Add("Category");
-            groupBy.Add("SubCategory");
-
-            var result = client.CommonQuery(Model.QueryType.Count, collection, null, null, groupBy);
+            var result = client.CommonQuery(Model.QueryType.Count, collection, null, null, new List<string> { "Category", "SubCategory" });
 
             Assert.IsNotNull(result);
         }
