@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using ifunction.Analytic.Model;
 using ifunction.KeenSDK.Core;
 using ifunction.KeenSDK.Model;
@@ -73,7 +74,9 @@ namespace ifunction.KeenSDK
 
                 foreach (JObject item in jObject.Value<JArray>("result"))
                 {
-                    T entity = new T();
+                    T entity = new T { Count = item.Value<int>("result") };
+
+                    var displayNameBuilder = new StringBuilder();
 
                     foreach (var propertyName in groupByNames)
                     {
@@ -85,10 +88,11 @@ namespace ifunction.KeenSDK
                         if (property != null)
                         {
                             property.SetValue(entity, value);
+                            displayNameBuilder.AppendFormat("{0}-", value);
                         }
                     }
+                    entity.DisplayName = displayNameBuilder.ToString().TrimEnd('-');
 
-                    entity.Count = item.Value<int>("result");
                     result.Add(entity);
                 }
             }
@@ -131,7 +135,7 @@ namespace ifunction.KeenSDK
         /// <param name="groupByNames">The group by names.</param>
         /// <param name="propertyMapping">The property mapping.</param>
         /// <returns>IList&lt;T&gt;.</returns>
-        public static IList<T> QueryResultToIntervalGroups<T>(this JObject jObject, AxisTimeInterval interval, IList<string> groupByNames, IDictionary<string, string> propertyMapping = null) where T : IAnalyticStatistic, new()
+        public static IList<T> QueryResultToIntervalGroups<T>(this JObject jObject, AxisTimeInterval interval, IList<string> groupByNames, IDictionary<string, string> propertyMapping = null) where T : IGroupByResult, new()
         {
             IList<T> result = new List<T>();
 
@@ -150,9 +154,11 @@ namespace ifunction.KeenSDK
                     {
                         T entity = new T()
                         {
-                            StampIdentifier = stampIdentifier
+                            StampIdentifier = stampIdentifier,
+                            Count = group.Value<int>("result")
                         };
 
+                        var displayNameBuilder = new StringBuilder();
                         foreach (var propertyName in groupByNames)
                         {
                             var value = group.Value<string>(propertyName);
@@ -163,10 +169,11 @@ namespace ifunction.KeenSDK
                             if (property != null)
                             {
                                 property.SetValue(entity, value);
+                                displayNameBuilder.AppendFormat("{0}-", value);
                             }
                         }
 
-                        entity.Count = group.Value<int>("result");
+                        entity.DisplayName = displayNameBuilder.ToString().TrimEnd('-');
                         result.Add(entity);
                     }
                 }
