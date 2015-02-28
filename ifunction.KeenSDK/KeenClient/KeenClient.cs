@@ -461,6 +461,26 @@ namespace ifunction.KeenSDK.Core
         }
 
         /// <summary>
+        /// Counts the by interval in group.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collectionName">Name of the collection.</param>
+        /// <param name="timeFrame">The time frame.</param>
+        /// <param name="filters">The filters.</param>
+        /// <param name="groupByNames">The group by names.</param>
+        /// <param name="interval">The interval.</param>
+        /// <param name="timezone">The timezone.</param>
+        /// <param name="propertyMapping">The property mapping.</param>
+        /// <returns>IList&lt;T&gt;.</returns>
+        public IList<T> CountByIntervalInGroup<T>(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, AxisTimeInterval interval = null, int? timezone = null, IDictionary<string, string> propertyMapping = null)
+            where T : IGroupByResult, new()
+        {
+            var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, groupByNames, interval, timezone, null);
+
+            return result.QueryResultToIntervalGroups<T>(interval, groupByNames, propertyMapping);
+        }
+
+        /// <summary>
         /// Counts the by interval.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -475,7 +495,23 @@ namespace ifunction.KeenSDK.Core
         {
             var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, null, interval, timezone, null);
 
-            return result.QueryResultToIntervalGroups<T>(interval);
+            return result.QueryResultToInterval<T>(interval);
+        }
+
+        /// <summary>
+        /// Counts the by interval.
+        /// </summary>
+        /// <param name="collectionName">Name of the collection.</param>
+        /// <param name="timeFrame">The time frame.</param>
+        /// <param name="filters">The filters.</param>
+        /// <param name="interval">The interval.</param>
+        /// <param name="timezone">The timezone.</param>
+        /// <returns>IList&lt;AnalyticStatistic&gt;.</returns>
+        public IList<AnalyticStatistic> CountByInterval(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, AxisTimeInterval interval = null, int? timezone = null)
+        {
+            var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, null, interval, timezone, null);
+
+            return result.QueryResultToInterval<AnalyticStatistic>(interval);
         }
 
         /// <summary>

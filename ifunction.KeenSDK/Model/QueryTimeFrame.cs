@@ -139,6 +139,7 @@ namespace ifunction.KeenSDK.Model
         {
             this.IsAbsolute = false;
             this.Type = type;
+            this.N = n;
             this.Unit = timeUnit;
         }
 

@@ -97,13 +97,13 @@ namespace ifunction.KeenSDK
         }
 
         /// <summary>
-        /// Queries the result to interval groups.
+        /// Queries the result to interval.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="jObject">The j object.</param>
         /// <param name="interval">The interval.</param>
         /// <returns>IList&lt;T&gt;.</returns>
-        public static IList<T> QueryResultToIntervalGroups<T>(this JObject jObject, AxisTimeInterval interval) where T : IAnalyticStatistic, new()
+        public static IList<T> QueryResultToInterval<T>(this JObject jObject, AxisTimeInterval interval) where T : IAnalyticStatistic, new()
         {
             IList<T> result = new List<T>();
 
@@ -116,6 +116,59 @@ namespace ifunction.KeenSDK
                         Count = item.Value<int>("value"),
                         StampIdentifier = item.Value<JObject>("timeframe").Value<DateTime>("start").ToString(interval.IntervalToDateTimeFormat())
                     });
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Queries the result to interval groups.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jObject">The j object.</param>
+        /// <param name="interval">The interval.</param>
+        /// <param name="groupByNames">The group by names.</param>
+        /// <param name="propertyMapping">The property mapping.</param>
+        /// <returns>IList&lt;T&gt;.</returns>
+        public static IList<T> QueryResultToIntervalGroups<T>(this JObject jObject, AxisTimeInterval interval, IList<string> groupByNames, IDictionary<string, string> propertyMapping = null) where T : IAnalyticStatistic, new()
+        {
+            IList<T> result = new List<T>();
+
+            if (jObject != null && groupByNames != null && groupByNames.Count > 0)
+            {
+                var entityType = typeof(T);
+
+                foreach (JObject item in jObject.Value<JArray>("result"))
+                {
+                    var stampIdentifier =
+                        item.Value<JObject>("timeframe")
+                            .Value<DateTime>("start")
+                            .ToString(interval.IntervalToDateTimeFormat());
+
+                    foreach (JObject group in item.Value<JArray>("value"))
+                    {
+                        T entity = new T()
+                        {
+                            StampIdentifier = stampIdentifier
+                        };
+
+                        foreach (var propertyName in groupByNames)
+                        {
+                            var value = group.Value<string>(propertyName);
+                            var targetPropertyName = (propertyMapping != null && propertyMapping.ContainsKey(propertyName)) ? propertyMapping[propertyName] : propertyName;
+
+                            var property = entityType.GetProperty(targetPropertyName);
+
+                            if (property != null)
+                            {
+                                property.SetValue(entity, value);
+                            }
+                        }
+
+                        entity.Count = group.Value<int>("result");
+                        result.Add(entity);
+                    }
                 }
             }
 
