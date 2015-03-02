@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using ifunction.Analytic.Model;
 using ifunction.ExceptionSystem;
-using ifunction.KeenSDK.Core;
 using ifunction.KeenSDK.Model;
-using Newtonsoft.Json.Linq;
 
 namespace ifunction.KeenSDK
 {
@@ -253,6 +251,11 @@ namespace ifunction.KeenSDK
             if (!string.IsNullOrWhiteSpace(criteria.IpAddress))
             {
                 result.Add(new QueryFilter("IpAddress", QueryFilter.FilterOperator.Equal, criteria.IpAddress));
+            }
+
+            if (!string.IsNullOrWhiteSpace(criteria.UserAgent))
+            {
+                result.Add(new QueryFilter("UserAgent", QueryFilter.FilterOperator.Contains, criteria.UserAgent));
             }
 
             return result;
