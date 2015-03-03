@@ -248,6 +248,16 @@ namespace ifunction.KeenSDK
                 result.Add(new QueryFilter("UserIdentifier", QueryFilter.FilterOperator.Equal, criteria.UserIdentifier));
             }
 
+            if (criteria.Platform!=null)
+            {
+                result.Add(new QueryFilter("Platform", QueryFilter.FilterOperator.Equal, (int)criteria.Platform.Value));
+            }
+
+            if (criteria.DeviceType != null)
+            {
+                result.Add(new QueryFilter("DeviceType", QueryFilter.FilterOperator.Equal, (int)criteria.DeviceType.Value));
+            }
+
             if (!string.IsNullOrWhiteSpace(criteria.IpAddress))
             {
                 result.Add(new QueryFilter("IpAddress", QueryFilter.FilterOperator.Equal, criteria.IpAddress));
