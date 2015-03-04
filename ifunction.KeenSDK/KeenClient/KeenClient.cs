@@ -495,7 +495,7 @@ namespace ifunction.KeenSDK.Core
         {
             var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, null, interval, timezone, null);
 
-            return result.QueryResultToInterval<T>(interval);
+            return result.QueryResultToInterval<T>(interval, timezone);
         }
 
         /// <summary>
@@ -511,7 +511,7 @@ namespace ifunction.KeenSDK.Core
         {
             var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, null, interval, timezone, null);
 
-            return result.QueryResultToInterval<AnalyticStatistic>(interval);
+            return result.QueryResultToInterval<AnalyticStatistic>(interval, timezone);
         }
 
         /// <summary>

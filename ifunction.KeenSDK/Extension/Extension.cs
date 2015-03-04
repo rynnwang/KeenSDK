@@ -106,8 +106,9 @@ namespace ifunction.KeenSDK
         /// <typeparam name="T"></typeparam>
         /// <param name="jObject">The j object.</param>
         /// <param name="interval">The interval.</param>
+        /// <param name="timeZone">The time zone.</param>
         /// <returns>IList&lt;T&gt;.</returns>
-        public static IList<T> QueryResultToInterval<T>(this JObject jObject, AxisTimeInterval interval) where T : IAnalyticStatistic, new()
+        public static IList<T> QueryResultToInterval<T>(this JObject jObject, AxisTimeInterval interval, int? timeZone) where T : IAnalyticStatistic, new()
         {
             IList<T> result = new List<T>();
 
@@ -118,7 +119,7 @@ namespace ifunction.KeenSDK
                     result.Add(new T
                     {
                         Count = item.Value<int>("value"),
-                        StampIdentifier = item.Value<JObject>("timeframe").Value<DateTime>("start").ToString(interval.IntervalToDateTimeFormat())
+                        StampIdentifier = item.Value<JObject>("timeframe").Value<DateTime>("start").ToDisplayName(interval, timeZone)
                     });
                 }
             }
@@ -197,7 +198,7 @@ namespace ifunction.KeenSDK
                 case TimeUnit.Week:
                     return "yyyy-MM-dd";
                 case TimeUnit.Hour:
-                    return "yyyy-MM-dd-HH";
+                    return "yyyy-MM-dd HH:00";
                 case TimeUnit.Minute:
                     return "yyyy-MM-dd-HH-mm";
                 case TimeUnit.Month:
@@ -207,6 +208,18 @@ namespace ifunction.KeenSDK
                 default:
                     return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// Intervals to date time format.
+        /// </summary>
+        /// <param name="dateTime">The date time.</param>
+        /// <param name="interval">The interval.</param>
+        /// <param name="timeZone">The time zone.</param>
+        /// <returns>System.String.</returns>
+        private static string ToDisplayName(this DateTime dateTime, AxisTimeInterval interval, int? timeZone)
+        {
+            return dateTime.AddSeconds(timeZone ?? 0).ToString(interval.IntervalToDateTimeFormat());
         }
 
         #endregion
