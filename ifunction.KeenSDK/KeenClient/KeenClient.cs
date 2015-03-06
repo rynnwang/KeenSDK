@@ -191,8 +191,10 @@ namespace ifunction.KeenSDK.Core
         /// </summary>
         /// <param name="eventInfo">The event information.</param>
         /// <param name="addOnCollection">The add on collection.</param>
+        /// <param name="createdStamp">The created stamp.</param>
         /// <returns>JObject.</returns>
-        protected JObject PrepareUserObject(object eventInfo, EventAddOnCollection addOnCollection)
+        /// <exception cref="ifunction.ExceptionSystem.InvalidObjectException">keen</exception>
+        protected JObject PrepareUserObject(object eventInfo, EventAddOnCollection addOnCollection, DateTime? createdStamp = null)
         {
             var jEvent = JObject.FromObject(eventInfo);
 
@@ -223,7 +225,7 @@ namespace ifunction.KeenSDK.Core
             // Set the keen.timestamp if it has not already been set
             if (null == keen.Property("timestamp"))
             {
-                keen.Add("timestamp", DateTime.UtcNow);
+                keen.Add("timestamp", createdStamp ?? DateTime.UtcNow);
             }
 
             return jEvent;
@@ -366,18 +368,21 @@ namespace ifunction.KeenSDK.Core
 
         /// <summary>
         /// Add a single event to the specified collection.
+        /// <remarks>
+        /// If <c>createdStamp</c> is not specified, system would apply now UTC time instead.</remarks>
         /// </summary>
         /// <param name="collectionName">Collection name</param>
         /// <param name="eventInfo">An object representing the event to be added.</param>
         /// <param name="addOnCollection">The add on collection.</param>
-        public void AddEvent(string collectionName, object eventInfo, EventAddOnCollection addOnCollection)
+        /// <param name="createdStamp">The created stamp.</param>
+        public void AddEvent(string collectionName, object eventInfo, EventAddOnCollection addOnCollection, DateTime? createdStamp = null)
         {
             ValidateEventCollectionName(collectionName);
 
             eventInfo.CheckNullObject("eventInfo");
             this.WriteKey.CheckEmptyString("WriteKey");
 
-            var eventObject = PrepareUserObject(eventInfo, addOnCollection);
+            var eventObject = PrepareUserObject(eventInfo, addOnCollection, createdStamp);
 
             var request = this.GenerateUrl("POST", KeenConstants.EventsResource, collectionName);
             SetBasicAuthentication(request, this.WriteKey);
