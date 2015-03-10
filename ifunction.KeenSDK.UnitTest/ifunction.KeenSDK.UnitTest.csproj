@@ -41,7 +41,7 @@
   <ItemGroup>
     <Reference Include="ifunction.Common, Version=2.9.0.0, Culture=neutral, PublicKeyToken=4e9b350525e23afa, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ifunction.Common.2.9.13\lib\ifunction.Common.dll</HintPath>
+      <HintPath>..\packages\ifunction.Common.2.9.22\lib\ifunction.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

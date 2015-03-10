@@ -8,16 +8,24 @@ using ifunction.Analytic.Model;
 using ifunction.ExceptionSystem;
 using ifunction.KeenSDK.Core.AddOns;
 using ifunction.KeenSDK.Model;
-using ifunction.RestApi;
+using ifunction.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ifunction.KeenSDK.Core
 {
     /// <summary>
+    /// Delegate GetGroupName
+    /// </summary>
+    /// <param name="groupByNames">The group by names.</param>
+    /// <param name="jObject">The j object.</param>
+    /// <returns>System.String.</returns>
+    public delegate string GetGroupName(IList<string> groupByNames, JObject jObject);
+
+    /// <summary>
     /// Class KeenClient.
     /// </summary>
-    public partial class KeenClient
+    public class KeenClient
     {
         /// <summary>
         /// The valid collection names
@@ -476,13 +484,33 @@ namespace ifunction.KeenSDK.Core
         /// <param name="interval">The interval.</param>
         /// <param name="timezone">The timezone.</param>
         /// <param name="propertyMapping">The property mapping.</param>
+        /// <param name="getGroupName">Name of the get group.</param>
         /// <returns>IList&lt;T&gt;.</returns>
-        public IList<T> CountByIntervalInGroup<T>(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, AxisTimeInterval interval = null, int? timezone = null, IDictionary<string, string> propertyMapping = null)
+        public IList<T> CountByIntervalInGroup<T>(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, AxisTimeInterval interval = null, int? timezone = null, IDictionary<string, string> propertyMapping = null, GetGroupName getGroupName = null)
             where T : IGroupByResult, new()
         {
             var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, groupByNames, interval, timezone, null);
 
-            return result.QueryResultToIntervalGroups<T>(interval, groupByNames, propertyMapping);
+            return result.QueryResultToIntervalGroups<T>(interval, groupByNames, propertyMapping, getGroupName);
+        }
+
+        /// <summary>
+        /// Counts the by interval in group.
+        /// </summary>
+        /// <param name="collectionName">Name of the collection.</param>
+        /// <param name="timeFrame">The time frame.</param>
+        /// <param name="filters">The filters.</param>
+        /// <param name="groupByNames">The group by names.</param>
+        /// <param name="interval">The interval.</param>
+        /// <param name="timezone">The timezone.</param>
+        /// <param name="propertyMapping">The property mapping.</param>
+        /// <param name="getGroupName">Name of the get group.</param>
+        /// <returns>GroupCollection&lt;AnalyticStatistic&gt;.</returns>
+        public GroupCollection<AnalyticStatistic> CountByIntervalInGroup(string collectionName, QueryTimeFrame timeFrame = null, IList<QueryFilter> filters = null, IList<string> groupByNames = null, AxisTimeInterval interval = null, int? timezone = null, IDictionary<string, string> propertyMapping = null, GetGroupName getGroupName = null)
+        {
+            var result = CommonQuery(QueryType.Count, collectionName, timeFrame, filters, groupByNames, interval, timezone, null);
+
+            return result.QueryResultToIntervalGroups(interval, groupByNames, propertyMapping, getGroupName);
         }
 
         /// <summary>

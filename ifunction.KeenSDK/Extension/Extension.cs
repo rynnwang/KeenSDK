@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using ifunction.Analytic.Model;
 using ifunction.KeenSDK.Core;
 using ifunction.KeenSDK.Model;
+using ifunction.Model;
 using Newtonsoft.Json.Linq;
 
 namespace ifunction.KeenSDK
@@ -135,8 +137,9 @@ namespace ifunction.KeenSDK
         /// <param name="interval">The interval.</param>
         /// <param name="groupByNames">The group by names.</param>
         /// <param name="propertyMapping">The property mapping.</param>
+        /// <param name="getGroupName">Name of the get group.</param>
         /// <returns>IList&lt;T&gt;.</returns>
-        public static IList<T> QueryResultToIntervalGroups<T>(this JObject jObject, AxisTimeInterval interval, IList<string> groupByNames, IDictionary<string, string> propertyMapping = null) where T : IGroupByResult, new()
+        public static IList<T> QueryResultToIntervalGroups<T>(this JObject jObject, AxisTimeInterval interval, IList<string> groupByNames, IDictionary<string, string> propertyMapping = null, GetGroupName getGroupName = null) where T : IGroupByResult, new()
         {
             IList<T> result = new List<T>();
 
@@ -181,6 +184,70 @@ namespace ifunction.KeenSDK
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Queries the result to interval groups.
+        /// </summary>
+        /// <param name="jObject">The j object.</param>
+        /// <param name="interval">The interval.</param>
+        /// <param name="groupByNames">The group by names.</param>
+        /// <param name="propertyMapping">The property mapping.</param>
+        /// <param name="getGroupName">Name of the get group.</param>
+        /// <returns>GroupCollection&lt;AnalyticStatistic&gt;.</returns>
+        public static GroupCollection<AnalyticStatistic> QueryResultToIntervalGroups(this JObject jObject, AxisTimeInterval interval, IList<string> groupByNames, IDictionary<string, string> propertyMapping = null, GetGroupName getGroupName = null)
+        {
+            var result = new GroupCollection<AnalyticStatistic>();
+
+            if (jObject != null && groupByNames != null && groupByNames.Count > 0)
+            {
+                foreach (JObject item in jObject.Value<JArray>("result"))
+                {
+                    var stampIdentifier =
+                        item.Value<JObject>("timeframe")
+                            .Value<DateTime>("start")
+                            .ToString(interval.IntervalToDateTimeFormat());
+
+                    foreach (JObject group in item.Value<JArray>("value"))
+                    {
+                        var entity = new AnalyticStatistic()
+                        {
+                            StampIdentifier = stampIdentifier,
+                            Count = group.Value<int>("result")
+                        };
+
+                        var groupName = getGroupName == null
+                            ? DefaultGetGroupName(groupByNames, group)
+                            : getGroupName(groupByNames, group);
+
+                        result.Add(groupName, entity);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Defaults the name of the get group.
+        /// </summary>
+        /// <param name="groupByNames">The group by names.</param>
+        /// <param name="jObject">The j object.</param>
+        /// <returns>System.String.</returns>
+        private static string DefaultGetGroupName(IList<string> groupByNames, JObject jObject)
+        {
+            var displayNameBuilder = new StringBuilder();
+
+            if (groupByNames != null && jObject != null)
+            {
+                foreach (var propertyName in groupByNames)
+                {
+                    var value = jObject.Value<string>(propertyName);
+                    displayNameBuilder.AppendFormat("{0}-", value);
+                }
+            }
+
+            return displayNameBuilder.ToString().TrimEnd('-');
         }
 
         /// <summary>
