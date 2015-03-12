@@ -193,6 +193,8 @@ namespace ifunction.KeenSDK
 
             if (criteria == null) return result;
 
+            criteria.UnifyValue();
+
             if (!string.IsNullOrWhiteSpace(criteria.ApiFullName))
             {
                 result.Add(new QueryFilter("ApiFullName", QueryFilter.FilterOperator.Equal, criteria.ApiFullName));
@@ -248,7 +250,7 @@ namespace ifunction.KeenSDK
                 result.Add(new QueryFilter("UserIdentifier", QueryFilter.FilterOperator.Equal, criteria.UserIdentifier));
             }
 
-            if (criteria.Platform!=null)
+            if (criteria.Platform != null)
             {
                 result.Add(new QueryFilter("Platform", QueryFilter.FilterOperator.Equal, (int)criteria.Platform.Value));
             }
@@ -260,7 +262,7 @@ namespace ifunction.KeenSDK
 
             if (!string.IsNullOrWhiteSpace(criteria.IpAddress))
             {
-                result.Add(new QueryFilter("IpAddress", QueryFilter.FilterOperator.Equal, criteria.IpAddress));
+                result.Add(new QueryFilter("IpAddress", QueryFilter.FilterOperator.Contains, criteria.IpAddress));
             }
 
             if (!string.IsNullOrWhiteSpace(criteria.UserAgent))

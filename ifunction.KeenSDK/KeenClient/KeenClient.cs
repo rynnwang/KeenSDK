@@ -359,10 +359,10 @@ namespace ifunction.KeenSDK.Core
         /// <summary>
         /// Adds the event.
         /// </summary>
-        /// <param name="collection">The collection.</param>
+        /// <param name="collectionName">The collection.</param>
         /// <param name="eventInfo">The event information.</param>
         /// <param name="addOn">The add on.</param>
-        public void AddEvent(string collection, object eventInfo, IEventAddOn addOn = null)
+        public void AddEvent(string collectionName, object eventInfo, IEventAddOn addOn = null)
         {
             EventAddOnCollection addOnes = null;
 
@@ -371,7 +371,7 @@ namespace ifunction.KeenSDK.Core
                 addOnes = new EventAddOnCollection { addOn };
             }
 
-            AddEvent(collection, eventInfo, addOnes);
+            AddEvent(collectionName, eventInfo, addOnes);
         }
 
         /// <summary>

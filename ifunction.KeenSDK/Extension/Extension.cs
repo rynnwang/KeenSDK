@@ -40,6 +40,60 @@ namespace ifunction.KeenSDK
             return enumValue;
         }
 
+        /// <summary>
+        /// Unifies the value.
+        /// </summary>
+        /// <param name="eventLogBase">The event log base.</param>
+        public static void UnifyValue(this ApiEventLogBase eventLogBase)
+        {
+            if (eventLogBase == null) return;
+
+            if (!string.IsNullOrEmpty(eventLogBase.ClientIdentifier))
+            {
+                eventLogBase.ClientIdentifier = eventLogBase.ClientIdentifier.ToLowerInvariant();
+            }
+
+            if (!string.IsNullOrEmpty(eventLogBase.HttpMethod))
+            {
+                eventLogBase.HttpMethod = eventLogBase.HttpMethod.ToUpperInvariant();
+            }
+
+            if (!string.IsNullOrEmpty(eventLogBase.ResourceName))
+            {
+                eventLogBase.ResourceName = eventLogBase.ResourceName.ToLowerInvariant();
+            }
+
+            if (!string.IsNullOrEmpty(eventLogBase.ResourceEntityKey))
+            {
+                eventLogBase.ResourceEntityKey = eventLogBase.ResourceEntityKey.ToLowerInvariant();
+            }
+
+            if (!string.IsNullOrEmpty(eventLogBase.ResourceAction))
+            {
+                eventLogBase.ResourceAction = eventLogBase.ResourceAction.ToLowerInvariant();
+            }
+
+            if (!string.IsNullOrEmpty(eventLogBase.ServerIdentifier))
+            {
+                eventLogBase.ServerIdentifier = eventLogBase.ServerIdentifier.ToLowerInvariant();
+            }
+
+            if (!string.IsNullOrEmpty(eventLogBase.ServiceIdentifier))
+            {
+                eventLogBase.ServiceIdentifier = eventLogBase.ServiceIdentifier.ToLowerInvariant();
+            }
+
+            if (!string.IsNullOrEmpty(eventLogBase.RawUrl))
+            {
+                eventLogBase.RawUrl = eventLogBase.RawUrl.ToLowerInvariant();
+            }
+
+            if (!string.IsNullOrEmpty(eventLogBase.ReferrerUrl))
+            {
+                eventLogBase.ReferrerUrl = eventLogBase.ReferrerUrl.ToLowerInvariant();
+            }
+        }
+
         #region JObject to return objects
 
         /// <summary>
