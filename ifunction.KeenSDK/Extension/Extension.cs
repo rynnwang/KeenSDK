@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 using ifunction.Analytic.Model;
 using ifunction.KeenSDK.Core;
 using ifunction.KeenSDK.Model;
@@ -83,14 +82,9 @@ namespace ifunction.KeenSDK
                 eventLogBase.ServiceIdentifier = eventLogBase.ServiceIdentifier.ToLowerInvariant();
             }
 
-            if (!string.IsNullOrEmpty(eventLogBase.RawUrl))
+            if (!string.IsNullOrEmpty(eventLogBase.ModuleName))
             {
-                eventLogBase.RawUrl = eventLogBase.RawUrl.ToLowerInvariant();
-            }
-
-            if (!string.IsNullOrEmpty(eventLogBase.ReferrerUrl))
-            {
-                eventLogBase.ReferrerUrl = eventLogBase.ReferrerUrl.ToLowerInvariant();
+                eventLogBase.ModuleName = eventLogBase.ModuleName.ToLowerInvariant();
             }
         }
 
